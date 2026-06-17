@@ -1,0 +1,142 @@
+@use 'variables' as v;
+
+// ============================================================
+// Responsividade
+// ============================================================
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'xs' {
+    @media (max-width: #{v.$breakpoint-xs}) { @content; }
+  } @else if $breakpoint == 'sm' {
+    @media (max-width: #{v.$breakpoint-sm}) { @content; }
+  } @else if $breakpoint == 'md' {
+    @media (max-width: #{v.$breakpoint-md}) { @content; }
+  } @else if $breakpoint == 'lg' {
+    @media (max-width: #{v.$breakpoint-lg}) { @content; }
+  }
+}
+
+@mixin respond-above($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (min-width: #{v.$breakpoint-sm}) { @content; }
+  } @else if $breakpoint == 'md' {
+    @media (min-width: #{v.$breakpoint-md}) { @content; }
+  } @else if $breakpoint == 'lg' {
+    @media (min-width: #{v.$breakpoint-lg}) { @content; }
+  }
+}
+
+// ============================================================
+// Flexbox helpers
+// ============================================================
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// ============================================================
+// Cards
+// ============================================================
+@mixin card-base {
+  background: v.$color-white;
+  border-radius: v.$border-radius-xl;
+  box-shadow: v.$shadow-card;
+  overflow: hidden;
+  transition: v.$transition-base;
+
+  &:hover {
+    box-shadow: v.$shadow-xl;
+    transform: translateY(-4px);
+  }
+}
+
+// ============================================================
+// Gradientes da marca
+// ============================================================
+@mixin gradient-primary {
+  background: linear-gradient(135deg, v.$color-coral 0%, v.$color-begonia 100%);
+}
+
+@mixin gradient-warm {
+  background: linear-gradient(135deg, v.$color-coral-50 0%, v.$color-beige-100 100%);
+}
+
+@mixin gradient-hero {
+  background: linear-gradient(
+    135deg,
+    v.$color-coral-dark 0%,
+    v.$color-coral 40%,
+    v.$color-begonia 100%
+  );
+}
+
+// ============================================================
+// Texto truncado
+// ============================================================
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// ============================================================
+// Container padrão
+// ============================================================
+@mixin container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 v.$space-6;
+
+  @include respond-to('md') {
+    padding: 0 v.$space-4;
+  }
+
+  @include respond-to('sm') {
+    padding: 0 v.$space-4;
+  }
+}
+
+// ============================================================
+// Seção padrão
+// ============================================================
+@mixin section-padding {
+  padding: v.$space-20 0;
+
+  @include respond-to('md') {
+    padding: v.$space-12 0;
+  }
+
+  @include respond-to('sm') {
+    padding: v.$space-10 0;
+  }
+}
+
+// ============================================================
+// Botão base
+// ============================================================
+@mixin button-reset {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}

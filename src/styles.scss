@@ -1,0 +1,231 @@
+@use '@angular/material' as mat;
+@use 'styles/variables' as v;
+@use 'styles/mixins' as m;
+@use 'styles/typography';
+
+// ============================================================
+// Tema Angular Material — paleta customizada AdoPetMe
+// ============================================================
+html {
+  height: 100%;
+
+  @include mat.theme((
+    color: (
+      primary:  mat.$rose-palette,
+      tertiary: mat.$red-palette,
+    ),
+    typography: v.$font-family-primary,
+    density: 0,
+  ));
+
+  // Override das CSS variables do Material com a paleta SW
+  --mat-sys-primary:            #{v.$color-coral};
+  --mat-sys-on-primary:         #{v.$color-white};
+  --mat-sys-primary-container:  #{v.$color-coral-100};
+  --mat-sys-secondary:          #{v.$color-cardboard};
+  --mat-sys-secondary-container:#{v.$color-beige-100};
+  --mat-sys-surface:            #{v.$color-beige-50};
+  --mat-sys-surface-variant:    #{v.$color-beige-100};
+  --mat-sys-on-surface:         #{v.$color-text-primary};
+  --mat-sys-outline:            #{v.$color-beige-mid};
+}
+
+// ============================================================
+// Reset e base global
+// ============================================================
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: v.$font-family-primary;
+  font-size: v.$font-size-base;
+  color: v.$color-text-primary;
+  background-color: v.$color-white;
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ============================================================
+// Scrollbar customizada
+// ============================================================
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: v.$color-beige-50;
+}
+
+::-webkit-scrollbar-thumb {
+  background: v.$color-beige-mid;
+  border-radius: v.$border-radius-full;
+
+  &:hover {
+    background: v.$color-coral;
+  }
+}
+
+// ============================================================
+// Seleção de texto
+// ============================================================
+::selection {
+  background: rgba(v.$color-coral, 0.2);
+  color: v.$color-coral-dark;
+}
+
+// ============================================================
+// Links
+// ============================================================
+a {
+  color: v.$color-coral;
+  text-decoration: none;
+  transition: v.$transition-fast;
+
+  &:hover {
+    color: v.$color-coral-dark;
+  }
+}
+
+// ============================================================
+// Imagens
+// ============================================================
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// ============================================================
+// Utilitários de layout
+// ============================================================
+.container {
+  @include m.container;
+}
+
+.section {
+  @include m.section-padding;
+}
+
+// ============================================================
+// Utilitários de display
+// ============================================================
+.d-flex         { display: flex; }
+.align-center   { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.flex-column    { flex-direction: column; }
+.flex-wrap      { flex-wrap: wrap; }
+.gap-4          { gap: v.$space-4; }
+.gap-6          { gap: v.$space-6; }
+.gap-8          { gap: v.$space-8; }
+
+// ============================================================
+// Overrides globais de componentes Material
+// ============================================================
+
+// Botão primário com cor coral
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-flat-button.mat-primary {
+  --mdc-filled-button-container-color: #{v.$color-coral};
+  --mdc-filled-button-label-text-color: #{v.$color-white};
+
+  &:hover {
+    --mdc-filled-button-container-color: #{v.$color-coral-dark};
+  }
+}
+
+// Botão outlined coral
+.mat-mdc-outlined-button.mat-primary {
+  --mdc-outlined-button-label-text-color: #{v.$color-coral};
+  --mdc-outlined-button-outline-color: #{v.$color-coral};
+}
+
+// Chips
+.mat-mdc-chip.mat-mdc-standard-chip {
+  --mdc-chip-label-text-color: #{v.$color-text-secondary};
+  background-color: v.$color-beige-100;
+}
+
+// Inputs
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: #{v.$color-beige-50};
+  --mdc-outlined-text-field-label-text-color: #{v.$color-text-secondary};
+}
+
+// Progress bar
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: #{v.$color-coral};
+  --mdc-linear-progress-track-color: #{v.$color-beige-100};
+}
+
+// Snackbar
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #{v.$color-gray-900};
+}
+
+// ============================================================
+// Classes de status (badges/chips)
+// ============================================================
+.status-available {
+  background-color: rgba(v.$color-success, 0.12);
+  color: darken(v.$color-success, 10%);
+}
+
+.status-reserved {
+  background-color: rgba(v.$color-warning, 0.12);
+  color: darken(v.$color-warning, 15%);
+}
+
+.status-adopted {
+  background-color: rgba(v.$color-info, 0.12);
+  color: darken(v.$color-info, 10%);
+}
+
+.status-in-progress {
+  background-color: rgba(v.$color-coral, 0.12);
+  color: v.$color-coral-dark;
+}
+
+// ============================================================
+// Animações globais
+// ============================================================
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+// Skeleton loading
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    v.$color-gray-200 25%,
+    v.$color-gray-100 50%,
+    v.$color-gray-200 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: v.$border-radius-md;
+}

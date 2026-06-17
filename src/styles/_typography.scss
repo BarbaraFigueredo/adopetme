@@ -1,0 +1,100 @@
+@use 'variables' as v;
+
+// ============================================================
+// Títulos
+// ============================================================
+.heading-1 {
+  font-family: v.$font-family-primary;
+  font-size: v.$font-size-5xl;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: v.$color-text-primary;
+}
+
+.heading-2 {
+  font-family: v.$font-family-primary;
+  font-size: v.$font-size-4xl;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: v.$color-text-primary;
+}
+
+.heading-3 {
+  font-family: v.$font-family-primary;
+  font-size: v.$font-size-3xl;
+  font-weight: 600;
+  line-height: 1.3;
+  color: v.$color-text-primary;
+}
+
+.heading-4 {
+  font-family: v.$font-family-primary;
+  font-size: v.$font-size-2xl;
+  font-weight: 600;
+  line-height: 1.4;
+  color: v.$color-text-primary;
+}
+
+// ============================================================
+// Texto
+// ============================================================
+.text-lead {
+  font-size: v.$font-size-xl;
+  font-weight: 400;
+  line-height: 1.6;
+  color: v.$color-text-secondary;
+}
+
+.text-body {
+  font-size: v.$font-size-base;
+  font-weight: 400;
+  line-height: 1.7;
+  color: v.$color-text-secondary;
+}
+
+.text-sm {
+  font-size: v.$font-size-sm;
+  line-height: 1.5;
+  color: v.$color-text-muted;
+}
+
+.text-muted {
+  color: v.$color-text-muted;
+}
+
+.text-primary {
+  color: v.$color-coral;
+}
+
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+
+// ============================================================
+// Section labels
+// ============================================================
+.section-label {
+  display: inline-block;
+  font-size: v.$font-size-sm;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: v.$color-coral;
+  margin-bottom: v.$space-3;
+}
+
+.section-title {
+  font-family: v.$font-family-primary;
+  font-size: v.$font-size-4xl;
+  font-weight: 700;
+  color: v.$color-text-primary;
+  margin-bottom: v.$space-4;
+}
+
+.section-subtitle {
+  font-size: v.$font-size-lg;
+  color: v.$color-text-secondary;
+  max-width: 560px;
+}
