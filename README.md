@@ -1,6 +1,6 @@
 # AdoPetMe
 
-Sistema completo de adoção de animais voltado para ONGs, protetores independentes e adotantes.  # noqa: E999
+Sistema completo de adoção de animais voltado para ONGs, protetores independentes e adotantes.
 
 ## Visão Geral
 
@@ -48,9 +48,9 @@ Desenvolver primeiro o frontend em Angular e, em seguida, documentar a integraç
 ### Infraestrutura
 
 - Containers separados para frontend, backend e banco de dados
-- PostgreSQL em porta diferente das proibidas: 5432, 5434, 5435, 5532
+- PostgreSQL
 
-## Arquitetura Sugerida
+## Arquitetura
 
 ### Frontend (Angular)
 
@@ -145,9 +145,7 @@ Desenvolver primeiro o frontend em Angular e, em seguida, documentar a integraç
 
 ## Estrutura do Projeto
 
-Atualmente, este repositório contém apenas o `README.md`.
-
-> Observação: o frontend Angular e o backend Spring Boot ainda precisam ser implementados no repositório.
+> Observação: o backend Spring Boot ainda precisam ser implementados no repositório.
 
 ## Decisões Arquiteturais
 
@@ -156,6 +154,3 @@ Atualmente, este repositório contém apenas o `README.md`.
 - Uso de um motor de regras para análise de adoção e compatibilidade
 - Adoção de boas práticas como SOLID, DRY e Clean Code
 
-## Contato
-
-Para dúvidas ou contribuições futuras, use os canais do repositório ou abra issues no Git.
