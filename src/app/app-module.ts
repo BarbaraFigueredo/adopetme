@@ -8,9 +8,10 @@ import { AppRoutingModule } from './app-routing-module';
 import { SharedMaterialModule } from './shared/material.module';
 import { CoreModule } from './core/core.module';
 import { App } from './app';
+import { NotFoundComponent } from './features/not-found/not-found.component';
 
 @NgModule({
-  declarations: [App],
+  declarations: [App, NotFoundComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
