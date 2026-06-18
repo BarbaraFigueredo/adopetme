@@ -1,0 +1,68 @@
+<header class="navbar" [class.scrolled]="isScrolled" [class.menu-open]="mobileMenuOpen">
+  <div class="container navbar__inner">
+
+    <!-- Logo -->
+    <a class="navbar__logo" routerLink="/" (click)="closeMobileMenu()" aria-label="AdoPetMe - Página inicial">
+      <mat-icon class="navbar__logo-icon">pets</mat-icon>
+      <span class="navbar__logo-text">
+        Ado<span class="navbar__logo-accent">Pet</span>Me
+      </span>
+    </a>
+
+    <!-- Desktop nav links -->
+    <nav class="navbar__links" aria-label="Navegação principal">
+      <a
+        *ngFor="let link of navLinks"
+        class="navbar__link"
+        [routerLink]="link.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: link.exact }">
+        {{ link.label }}
+      </a>
+    </nav>
+
+    <!-- Desktop actions -->
+    <div class="navbar__actions">
+      <button mat-stroked-button class="btn-login" routerLink="/auth/login">
+        Entrar
+      </button>
+      <button mat-raised-button color="primary" class="btn-signup" routerLink="/auth/cadastro">
+        Cadastrar-se
+      </button>
+    </div>
+
+    <!-- Hamburger mobile -->
+    <button
+      class="navbar__hamburger"
+      mat-icon-button
+      aria-label="Abrir menu de navegação"
+      [attr.aria-expanded]="mobileMenuOpen"
+      (click)="toggleMobileMenu()">
+      <mat-icon>{{ mobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+    </button>
+
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="navbar__mobile" [class.open]="mobileMenuOpen" role="navigation" aria-label="Navegação mobile">
+    <nav class="navbar__mobile-links">
+      <a
+        *ngFor="let link of navLinks"
+        class="navbar__mobile-link"
+        [routerLink]="link.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: link.exact }"
+        (click)="closeMobileMenu()">
+        {{ link.label }}
+      </a>
+    </nav>
+    <div class="navbar__mobile-actions">
+      <button mat-stroked-button class="btn-login" routerLink="/auth/login" (click)="closeMobileMenu()">
+        Entrar
+      </button>
+      <button mat-raised-button color="primary" routerLink="/auth/cadastro" (click)="closeMobileMenu()">
+        Cadastrar-se
+      </button>
+    </div>
+  </div>
+</header>

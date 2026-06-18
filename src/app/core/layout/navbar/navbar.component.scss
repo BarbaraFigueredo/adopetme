@@ -1,0 +1,244 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+$navbar-height: 72px;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(v.$color-white, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: v.$transition-base;
+
+  &.scrolled {
+    border-bottom-color: v.$color-beige-100;
+    box-shadow: v.$shadow-md;
+    background: rgba(v.$color-white, 0.97);
+  }
+
+  // -------------------------------------------------------
+  // Inner wrapper
+  // -------------------------------------------------------
+  &__inner {
+    @include m.flex-between;
+    height: $navbar-height;
+    gap: v.$space-6;
+  }
+
+  // -------------------------------------------------------
+  // Logo
+  // -------------------------------------------------------
+  &__logo {
+    @include m.flex-center;
+    gap: v.$space-2;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: v.$transition-fast;
+
+    &:hover {
+      opacity: 0.85;
+    }
+
+    &-icon {
+      color: v.$color-coral;
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      transition: v.$transition-spring;
+
+      .navbar:hover & {
+        transform: rotate(-15deg) scale(1.05);
+      }
+    }
+
+    &-text {
+      font-size: v.$font-size-xl;
+      font-weight: 700;
+      color: v.$color-text-primary;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+
+    &-accent {
+      color: v.$color-coral;
+    }
+  }
+
+  // -------------------------------------------------------
+  // Desktop nav links
+  // -------------------------------------------------------
+  &__links {
+    @include m.flex-center;
+    gap: v.$space-1;
+    flex: 1;
+    justify-content: center;
+
+    @include m.respond-to('md') {
+      display: none;
+    }
+  }
+
+  &__link {
+    position: relative;
+    padding: v.$space-2 v.$space-3;
+    font-size: v.$font-size-sm;
+    font-weight: 500;
+    color: v.$color-text-secondary;
+    text-decoration: none;
+    border-radius: v.$border-radius-md;
+    transition: v.$transition-base;
+    white-space: nowrap;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: v.$space-3;
+      right: v.$space-3;
+      height: 2px;
+      background: v.$color-coral;
+      border-radius: 1px;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      color: v.$color-coral;
+      background: v.$color-coral-50;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+
+    &.active {
+      color: v.$color-coral;
+      font-weight: 600;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  // -------------------------------------------------------
+  // Desktop actions
+  // -------------------------------------------------------
+  &__actions {
+    @include m.flex-center;
+    gap: v.$space-3;
+    flex-shrink: 0;
+
+    @include m.respond-to('md') {
+      display: none;
+    }
+
+    .btn-login {
+      --mdc-outlined-button-label-text-color: #{v.$color-coral};
+      --mdc-outlined-button-outline-color: #{v.$color-coral};
+      --mdc-outlined-button-hover-label-text-color: #{v.$color-coral-dark};
+      font-size: v.$font-size-sm;
+      font-weight: 500;
+      border-radius: v.$border-radius-full !important;
+    }
+
+    .btn-signup {
+      font-size: v.$font-size-sm;
+      font-weight: 600;
+      border-radius: v.$border-radius-full !important;
+      --mdc-filled-button-container-color: #{v.$color-coral};
+      --mdc-filled-button-label-text-color: #{v.$color-white};
+
+      &:hover {
+        --mdc-filled-button-container-color: #{v.$color-coral-dark};
+      }
+    }
+  }
+
+  // -------------------------------------------------------
+  // Hamburger (mobile only)
+  // -------------------------------------------------------
+  &__hamburger {
+    display: none !important;
+    color: v.$color-text-primary;
+    flex-shrink: 0;
+
+    @include m.respond-to('md') {
+      display: flex !important;
+    }
+  }
+
+  // -------------------------------------------------------
+  // Mobile menu
+  // -------------------------------------------------------
+  &__mobile {
+    display: none;
+    flex-direction: column;
+    background: v.$color-white;
+    border-top: 1px solid v.$color-beige-100;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.3s ease;
+
+    @include m.respond-to('md') {
+      display: flex;
+    }
+
+    &.open {
+      max-height: 420px;
+      padding: v.$space-4 v.$space-6 v.$space-6;
+    }
+  }
+
+  &__mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space-1;
+  }
+
+  &__mobile-link {
+    padding: v.$space-3 v.$space-4;
+    font-size: v.$font-size-base;
+    font-weight: 500;
+    color: v.$color-text-secondary;
+    text-decoration: none;
+    border-radius: v.$border-radius-md;
+    transition: v.$transition-fast;
+
+    &:hover,
+    &.active {
+      color: v.$color-coral;
+      background: v.$color-coral-50;
+    }
+
+    &.active {
+      font-weight: 600;
+    }
+  }
+
+  &__mobile-actions {
+    display: flex;
+    gap: v.$space-3;
+    margin-top: v.$space-5;
+    padding-top: v.$space-5;
+    border-top: 1px solid v.$color-beige-100;
+
+    button {
+      flex: 1;
+      border-radius: v.$border-radius-full !important;
+    }
+
+    .btn-login {
+      --mdc-outlined-button-label-text-color: #{v.$color-coral};
+      --mdc-outlined-button-outline-color: #{v.$color-coral};
+    }
+  }
+}

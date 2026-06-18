@@ -6,6 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing-module';
 import { SharedMaterialModule } from './shared/material.module';
+import { CoreModule } from './core/core.module';
 import { App } from './app';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { App } from './app';
     FormsModule,
     AppRoutingModule,
     SharedMaterialModule,
+    CoreModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
