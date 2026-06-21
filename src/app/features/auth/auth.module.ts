@@ -7,9 +7,10 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { SharedMaterialModule } from '../../shared/material.module';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
 
 @NgModule({
-  declarations: [LoginPageComponent, RegisterPageComponent],
+  declarations: [LoginPageComponent, RegisterPageComponent, ForgotPasswordPageComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
