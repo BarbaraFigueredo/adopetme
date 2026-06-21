@@ -1,1 +1,137 @@
-<p>Login — em breve</p>
+<div class="login-page">
+
+  <!-- ────── Brand Panel (desktop) ────── -->
+  <aside class="brand-panel">
+    <div class="brand-content">
+      <div class="brand-logo">
+        <mat-icon class="brand-icon">pets</mat-icon>
+        <span class="brand-name">AdoPetMe</span>
+      </div>
+
+      <div class="brand-headline">
+        <h1>Encontre seu<br>companheiro<br>perfeito</h1>
+        <p>Conectando corações e patinhas, uma adoção de cada vez.</p>
+      </div>
+
+      <div class="brand-stats">
+        <div class="stat">
+          <span class="stat-value">1.2k+</span>
+          <span class="stat-label">Adotados</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">350+</span>
+          <span class="stat-label">Famílias</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">42</span>
+          <span class="stat-label">Parceiros</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="paws-decoration" aria-hidden="true">
+      <mat-icon class="paw paw--lg">pets</mat-icon>
+      <mat-icon class="paw paw--md">pets</mat-icon>
+      <mat-icon class="paw paw--sm">pets</mat-icon>
+    </div>
+  </aside>
+
+  <!-- ────── Form Panel ────── -->
+  <main class="form-panel">
+    <div class="form-card animate-fade-in">
+
+      <!-- Logo (mobile only) -->
+      <div class="mobile-logo" aria-hidden="true">
+        <mat-icon class="brand-icon">pets</mat-icon>
+        <span class="brand-name">AdoPetMe</span>
+      </div>
+
+      <div class="form-header">
+        <h2>Bem-vindo de volta</h2>
+        <p>Entre com sua conta para continuar</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- E-mail -->
+        <mat-form-field appearance="outline" class="field-full">
+          <mat-label>E-mail</mat-label>
+          <mat-icon matPrefix>mail_outline</mat-icon>
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            placeholder="seu@email.com"
+            autocomplete="email"
+          />
+          <mat-error *ngIf="form.get('email')?.hasError('required')">
+            E-mail é obrigatório
+          </mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">
+            Informe um e-mail válido
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Senha -->
+        <mat-form-field appearance="outline" class="field-full">
+          <mat-label>Senha</mat-label>
+          <mat-icon matPrefix>lock_outline</mat-icon>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            placeholder="••••••"
+            autocomplete="current-password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            [attr.aria-label]="hidePassword ? 'Mostrar senha' : 'Ocultar senha'"
+            (click)="hidePassword = !hidePassword"
+          >
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('password')?.hasError('required')">
+            Senha é obrigatória
+          </mat-error>
+          <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+            Mínimo 6 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Lembrar + Esqueci -->
+        <div class="form-options">
+          <mat-checkbox formControlName="remember" color="primary">
+            Lembrar de mim
+          </mat-checkbox>
+          <a routerLink="/forgot-password" class="link-forgot">Esqueci a senha</a>
+        </div>
+
+        <!-- Submit -->
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="btn-submit"
+          [disabled]="loading"
+        >
+          <mat-spinner *ngIf="loading" diameter="20" class="btn-spinner"></mat-spinner>
+          <span *ngIf="!loading">Entrar</span>
+        </button>
+
+      </form>
+
+      <mat-divider class="divider"></mat-divider>
+
+      <p class="register-cta">
+        Ainda não tem conta?
+        <a routerLink="/register" class="link-register">Criar conta gratuita</a>
+      </p>
+
+    </div>
+  </main>
+
+</div>
