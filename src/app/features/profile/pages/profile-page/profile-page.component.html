@@ -1,1 +1,493 @@
-<p>Perfil — em breve</p>
+<div class="profile-page">
+
+  <!-- ───── Hero ───── -->
+  <div class="profile-hero">
+    <div class="hero-inner">
+
+      <div class="avatar-wrapper">
+        <div class="avatar">
+          <span class="avatar-initials">{{ userInitials }}</span>
+        </div>
+        <button
+          mat-mini-fab
+          class="avatar-edit-btn"
+          type="button"
+          (click)="trocarFoto()"
+          matTooltip="Trocar foto de perfil"
+        >
+          <mat-icon>photo_camera</mat-icon>
+        </button>
+      </div>
+
+      <div class="user-info">
+        <h1 class="user-name">{{ userName }}</h1>
+        <div class="role-badge">
+          <mat-icon>{{ roleIcon }}</mat-icon>
+          <span>{{ roleLabel }}</span>
+        </div>
+        <p class="user-email">{{ userEmail }}</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ───── Content ───── -->
+  <div class="profile-content">
+    <div class="content-card animate-fade-in">
+
+      <mat-tab-group color="primary" class="profile-tabs" animationDuration="200ms">
+
+        <!-- ── Tab 1: Dados Pessoais ── -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">person_outline</mat-icon>
+            <span class="tab-label">Dados Pessoais</span>
+          </ng-template>
+          <div class="tab-body">
+
+            <div class="tab-section-header">
+              <h3>Informações pessoais</h3>
+              <p>Atualize seus dados de contato e identificação</p>
+            </div>
+
+            <form [formGroup]="dadosPessoaisForm" novalidate>
+
+              <mat-form-field appearance="outline" class="field-full">
+                <mat-label>Nome completo</mat-label>
+                <mat-icon matPrefix>person_outline</mat-icon>
+                <input
+                  matInput
+                  formControlName="nomeCompleto"
+                  placeholder="Seu nome completo"
+                  autocomplete="name"
+                />
+                <mat-error *ngIf="dadosPessoaisForm.get('nomeCompleto')?.hasError('required')">
+                  Nome é obrigatório
+                </mat-error>
+                <mat-error *ngIf="dadosPessoaisForm.get('nomeCompleto')?.hasError('minlength')">
+                  Mínimo 3 caracteres
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="field-full">
+                <mat-label>E-mail</mat-label>
+                <mat-icon matPrefix>mail_outline</mat-icon>
+                <input
+                  matInput
+                  type="email"
+                  formControlName="email"
+                  placeholder="seu@email.com"
+                  autocomplete="email"
+                />
+                <mat-error *ngIf="dadosPessoaisForm.get('email')?.hasError('required')">
+                  E-mail é obrigatório
+                </mat-error>
+                <mat-error *ngIf="dadosPessoaisForm.get('email')?.hasError('email')">
+                  Informe um e-mail válido
+                </mat-error>
+              </mat-form-field>
+
+              <div class="fields-row two-cols">
+                <mat-form-field appearance="outline">
+                  <mat-label>Telefone / WhatsApp</mat-label>
+                  <mat-icon matPrefix>phone</mat-icon>
+                  <input
+                    matInput
+                    formControlName="telefone"
+                    placeholder="(11) 99999-9999"
+                    [mask]="'(00) 00000-0000||(00) 0000-0000'"
+                  />
+                  <mat-error *ngIf="dadosPessoaisForm.get('telefone')?.hasError('required')">
+                    Telefone é obrigatório
+                  </mat-error>
+                  <mat-error *ngIf="dadosPessoaisForm.get('telefone')?.hasError('minlength')">
+                    Número inválido
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Data de nascimento</mat-label>
+                  <mat-icon matPrefix>cake</mat-icon>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="dataNascimento"
+                    placeholder="DD/MM/AAAA"
+                    readonly
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker startView="multi-year"></mat-datepicker>
+                  <mat-error *ngIf="dadosPessoaisForm.get('dataNascimento')?.hasError('required')">
+                    Data é obrigatória
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-actions">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="btn-save"
+                  type="button"
+                  [disabled]="loadingDados"
+                  (click)="salvarDados()"
+                >
+                  <mat-spinner *ngIf="loadingDados" diameter="20" class="btn-spinner"></mat-spinner>
+                  <mat-icon *ngIf="!loadingDados">save</mat-icon>
+                  <span *ngIf="!loadingDados">Salvar alterações</span>
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </mat-tab>
+
+        <!-- ── Tab 2: Endereço ── -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">location_on</mat-icon>
+            <span class="tab-label">Endereço</span>
+          </ng-template>
+          <div class="tab-body">
+
+            <div class="tab-section-header">
+              <h3>Endereço residencial</h3>
+              <p>Mantenha seu endereço atualizado para solicitações de adoção</p>
+            </div>
+
+            <form [formGroup]="enderecoForm" novalidate>
+
+              <div class="fields-row two-cols">
+                <mat-form-field appearance="outline">
+                  <mat-label>CEP</mat-label>
+                  <mat-icon matPrefix>location_on</mat-icon>
+                  <input
+                    matInput
+                    formControlName="cep"
+                    placeholder="00000-000"
+                    [mask]="'00000-000'"
+                    (blur)="buscarCep()"
+                  />
+                  <mat-spinner
+                    *ngIf="loadingCep"
+                    matSuffix
+                    diameter="18"
+                    class="cep-spinner"
+                  ></mat-spinner>
+                  <mat-error *ngIf="enderecoForm.get('cep')?.hasError('required')">
+                    CEP é obrigatório
+                  </mat-error>
+                  <mat-error *ngIf="enderecoForm.get('cep')?.hasError('minlength') || enderecoForm.get('cep')?.hasError('maxlength')">
+                    CEP inválido
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Estado</mat-label>
+                  <mat-icon matPrefix>map</mat-icon>
+                  <mat-select formControlName="estado">
+                    <mat-option *ngFor="let uf of estados" [value]="uf">{{ uf }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="enderecoForm.get('estado')?.hasError('required')">
+                    Estado é obrigatório
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline" class="field-full">
+                <mat-label>Logradouro</mat-label>
+                <mat-icon matPrefix>home</mat-icon>
+                <input
+                  matInput
+                  formControlName="logradouro"
+                  placeholder="Rua, Avenida..."
+                  autocomplete="street-address"
+                />
+                <mat-error *ngIf="enderecoForm.get('logradouro')?.hasError('required')">
+                  Logradouro é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <div class="fields-row two-cols">
+                <mat-form-field appearance="outline">
+                  <mat-label>Número</mat-label>
+                  <input matInput formControlName="numero" placeholder="Nº" />
+                  <mat-error *ngIf="enderecoForm.get('numero')?.hasError('required')">
+                    Número é obrigatório
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Complemento</mat-label>
+                  <input
+                    matInput
+                    formControlName="complemento"
+                    placeholder="Apto, Bloco... (opcional)"
+                  />
+                </mat-form-field>
+              </div>
+
+              <div class="fields-row two-cols">
+                <mat-form-field appearance="outline">
+                  <mat-label>Bairro</mat-label>
+                  <input matInput formControlName="bairro" placeholder="Bairro" />
+                  <mat-error *ngIf="enderecoForm.get('bairro')?.hasError('required')">
+                    Bairro é obrigatório
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Cidade</mat-label>
+                  <input matInput formControlName="cidade" placeholder="Cidade" />
+                  <mat-error *ngIf="enderecoForm.get('cidade')?.hasError('required')">
+                    Cidade é obrigatória
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-actions">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="btn-save"
+                  type="button"
+                  [disabled]="loadingEndereco"
+                  (click)="salvarEndereco()"
+                >
+                  <mat-spinner *ngIf="loadingEndereco" diameter="20" class="btn-spinner"></mat-spinner>
+                  <mat-icon *ngIf="!loadingEndereco">save</mat-icon>
+                  <span *ngIf="!loadingEndereco">Salvar endereço</span>
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </mat-tab>
+
+        <!-- ── Tab 3: Perfil do Adotante ── -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">pets</mat-icon>
+            <span class="tab-label">Perfil Adotante</span>
+          </ng-template>
+          <div class="tab-body">
+
+            <div class="tab-section-header">
+              <h3>Perfil do adotante</h3>
+              <p>Essas informações ajudam a encontrar o pet ideal para você</p>
+            </div>
+
+            <form [formGroup]="perfilAdotanteForm" novalidate>
+
+              <div class="fields-row two-cols">
+                <mat-form-field appearance="outline">
+                  <mat-label>Tipo de moradia</mat-label>
+                  <mat-icon matPrefix>apartment</mat-icon>
+                  <mat-select formControlName="tipoMoradia">
+                    <mat-option value="casa">Casa</mat-option>
+                    <mat-option value="apartamento">Apartamento</mat-option>
+                    <mat-option value="chacara">Chácara / Fazenda</mat-option>
+                    <mat-option value="outro">Outro</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="perfilAdotanteForm.get('tipoMoradia')?.hasError('required')">
+                    Selecione o tipo de moradia
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Experiência com animais</mat-label>
+                  <mat-icon matPrefix>grade</mat-icon>
+                  <mat-select formControlName="experienciaAnimais">
+                    <mat-option value="nenhuma">Nenhuma</mat-option>
+                    <mat-option value="basica">Básica</mat-option>
+                    <mat-option value="moderada">Moderada</mat-option>
+                    <mat-option value="avancada">Avançada</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="perfilAdotanteForm.get('experienciaAnimais')?.hasError('required')">
+                    Selecione sua experiência
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="radio-group">
+                <label class="radio-label">Tem quintal ou área externa?</label>
+                <mat-radio-group formControlName="temQuintal" class="radio-options">
+                  <mat-radio-button value="sim" color="primary">Sim</mat-radio-button>
+                  <mat-radio-button value="nao" color="primary">Não</mat-radio-button>
+                </mat-radio-group>
+                <div
+                  class="radio-error"
+                  *ngIf="perfilAdotanteForm.get('temQuintal')?.hasError('required') && perfilAdotanteForm.get('temQuintal')?.touched"
+                >
+                  Selecione uma opção
+                </div>
+              </div>
+
+              <div class="radio-group">
+                <label class="radio-label">Já tem outros animais em casa?</label>
+                <mat-radio-group formControlName="temOutrosAnimais" class="radio-options">
+                  <mat-radio-button value="sim" color="primary">Sim</mat-radio-button>
+                  <mat-radio-button value="nao" color="primary">Não</mat-radio-button>
+                </mat-radio-group>
+                <div
+                  class="radio-error"
+                  *ngIf="perfilAdotanteForm.get('temOutrosAnimais')?.hasError('required') && perfilAdotanteForm.get('temOutrosAnimais')?.touched"
+                >
+                  Selecione uma opção
+                </div>
+              </div>
+
+              <mat-form-field appearance="outline" class="field-full">
+                <mat-label>Por que deseja adotar? (opcional)</mat-label>
+                <mat-icon matPrefix>edit_note</mat-icon>
+                <textarea
+                  matInput
+                  formControlName="motivacao"
+                  rows="3"
+                  placeholder="Conte-nos um pouco sobre sua motivação..."
+                ></textarea>
+              </mat-form-field>
+
+              <div class="form-actions">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="btn-save"
+                  type="button"
+                  [disabled]="loadingPerfil"
+                  (click)="salvarPerfil()"
+                >
+                  <mat-spinner *ngIf="loadingPerfil" diameter="20" class="btn-spinner"></mat-spinner>
+                  <mat-icon *ngIf="!loadingPerfil">save</mat-icon>
+                  <span *ngIf="!loadingPerfil">Salvar perfil</span>
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </mat-tab>
+
+        <!-- ── Tab 4: Segurança ── -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">lock_outline</mat-icon>
+            <span class="tab-label">Segurança</span>
+          </ng-template>
+          <div class="tab-body">
+
+            <div class="tab-section-header">
+              <h3>Alterar senha</h3>
+              <p>Mantenha sua conta segura com uma senha forte</p>
+            </div>
+
+            <div class="security-tip">
+              <mat-icon>info_outline</mat-icon>
+              <span>Use no mínimo 8 caracteres, combinando letras maiúsculas, minúsculas e números.</span>
+            </div>
+
+            <form [formGroup]="segurancaForm" novalidate>
+
+              <mat-form-field appearance="outline" class="field-full">
+                <mat-label>Senha atual</mat-label>
+                <mat-icon matPrefix>lock_outline</mat-icon>
+                <input
+                  matInput
+                  [type]="hideAtual ? 'password' : 'text'"
+                  formControlName="senhaAtual"
+                  placeholder="Sua senha atual"
+                  autocomplete="current-password"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  [attr.aria-label]="hideAtual ? 'Mostrar senha' : 'Ocultar senha'"
+                  (click)="hideAtual = !hideAtual"
+                >
+                  <mat-icon>{{ hideAtual ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="segurancaForm.get('senhaAtual')?.hasError('required')">
+                  Senha atual é obrigatória
+                </mat-error>
+              </mat-form-field>
+
+              <div class="fields-row two-cols">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nova senha</mat-label>
+                  <mat-icon matPrefix>lock_outline</mat-icon>
+                  <input
+                    matInput
+                    [type]="hideNova ? 'password' : 'text'"
+                    formControlName="novaSenha"
+                    placeholder="Mínimo 8 caracteres"
+                    autocomplete="new-password"
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    type="button"
+                    [attr.aria-label]="hideNova ? 'Mostrar senha' : 'Ocultar senha'"
+                    (click)="hideNova = !hideNova"
+                  >
+                    <mat-icon>{{ hideNova ? 'visibility_off' : 'visibility' }}</mat-icon>
+                  </button>
+                  <mat-error *ngIf="segurancaForm.get('novaSenha')?.hasError('required')">
+                    Nova senha é obrigatória
+                  </mat-error>
+                  <mat-error *ngIf="segurancaForm.get('novaSenha')?.hasError('minlength')">
+                    Mínimo 8 caracteres
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Confirmar nova senha</mat-label>
+                  <mat-icon matPrefix>lock_outline</mat-icon>
+                  <input
+                    matInput
+                    [type]="hideConfirmar ? 'password' : 'text'"
+                    formControlName="confirmarNovaSenha"
+                    placeholder="Repita a nova senha"
+                    autocomplete="new-password"
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    type="button"
+                    [attr.aria-label]="hideConfirmar ? 'Mostrar senha' : 'Ocultar senha'"
+                    (click)="hideConfirmar = !hideConfirmar"
+                  >
+                    <mat-icon>{{ hideConfirmar ? 'visibility_off' : 'visibility' }}</mat-icon>
+                  </button>
+                  <mat-error *ngIf="segurancaForm.get('confirmarNovaSenha')?.hasError('required')">
+                    Confirmação é obrigatória
+                  </mat-error>
+                  <mat-error *ngIf="segurancaForm.get('confirmarNovaSenha')?.hasError('senhasNaoCoincidem')">
+                    As senhas não coincidem
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-actions">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="btn-save"
+                  type="button"
+                  [disabled]="loadingSenha"
+                  (click)="alterarSenha()"
+                >
+                  <mat-spinner *ngIf="loadingSenha" diameter="20" class="btn-spinner"></mat-spinner>
+                  <mat-icon *ngIf="!loadingSenha">lock_reset</mat-icon>
+                  <span *ngIf="!loadingSenha">Alterar senha</span>
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    </div>
+  </div>
+
+</div>

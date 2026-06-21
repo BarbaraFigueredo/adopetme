@@ -1,0 +1,370 @@
+@use '../../../../../styles/variables' as v;
+@use '../../../../../styles/mixins' as m;
+
+// ────────────────────────────────────────────────
+// Page
+// ────────────────────────────────────────────────
+.profile-page {
+  min-height: calc(100vh - 72px);
+  background-color: v.$color-beige-50;
+}
+
+// ────────────────────────────────────────────────
+// Hero
+// ────────────────────────────────────────────────
+.profile-hero {
+  @include m.gradient-hero;
+  padding: v.$space-12 v.$space-6 v.$space-16;
+
+  @include m.respond-to('sm') {
+    padding: v.$space-8 v.$space-4 v.$space-12;
+  }
+}
+
+.hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: v.$space-8;
+
+  @include m.respond-to('sm') {
+    flex-direction: column;
+    text-align: center;
+    gap: v.$space-5;
+  }
+}
+
+// ────────────────────────────────────────────────
+// Avatar
+// ────────────────────────────────────────────────
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 112px;
+  height: 112px;
+  border-radius: v.$border-radius-full;
+  background: rgba(v.$color-white, 0.2);
+  border: 4px solid rgba(v.$color-white, 0.5);
+  @include m.flex-center;
+
+  @include m.respond-to('sm') {
+    width: 88px;
+    height: 88px;
+  }
+}
+
+.avatar-initials {
+  font-size: v.$font-size-4xl;
+  font-weight: 700;
+  color: v.$color-white;
+  letter-spacing: -0.02em;
+  line-height: 1;
+
+  @include m.respond-to('sm') {
+    font-size: v.$font-size-3xl;
+  }
+}
+
+.avatar-edit-btn {
+  position: absolute !important;
+  bottom: 2px;
+  right: 2px;
+  width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  background-color: v.$color-white !important;
+  color: v.$color-coral !important;
+  box-shadow: v.$shadow-md !important;
+
+  mat-icon {
+    font-size: 1.1rem;
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+}
+
+// ────────────────────────────────────────────────
+// User info (hero)
+// ────────────────────────────────────────────────
+.user-info {
+  color: v.$color-white;
+}
+
+.user-name {
+  font-size: v.$font-size-3xl;
+  font-weight: 700;
+  color: v.$color-white;
+  margin: 0 0 v.$space-3 0;
+  line-height: 1.2;
+
+  @include m.respond-to('sm') {
+    font-size: v.$font-size-2xl;
+  }
+}
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  background: rgba(v.$color-white, 0.2);
+  border: 1px solid rgba(v.$color-white, 0.3);
+  border-radius: v.$border-radius-full;
+  padding: v.$space-1 v.$space-4;
+  margin-bottom: v.$space-3;
+
+  mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    color: v.$color-white;
+  }
+
+  span {
+    font-size: v.$font-size-sm;
+    font-weight: 600;
+    color: v.$color-white;
+    letter-spacing: 0.02em;
+  }
+}
+
+.user-email {
+  font-size: v.$font-size-sm;
+  color: rgba(v.$color-white, 0.8);
+  margin: 0;
+}
+
+// ────────────────────────────────────────────────
+// Content area
+// ────────────────────────────────────────────────
+.profile-content {
+  max-width: 900px;
+  margin: calc(-1 * v.$space-10) auto 0;
+  padding: 0 v.$space-6 v.$space-12;
+  position: relative;
+  z-index: 1;
+
+  @include m.respond-to('sm') {
+    padding: 0 v.$space-4 v.$space-8;
+    margin-top: calc(-1 * v.$space-8);
+  }
+}
+
+.content-card {
+  background: v.$color-white;
+  border-radius: v.$border-radius-2xl;
+  box-shadow: v.$shadow-xl;
+  overflow: hidden;
+}
+
+// ────────────────────────────────────────────────
+// Tabs
+// ────────────────────────────────────────────────
+.profile-tabs {
+  ::ng-deep {
+    .mat-mdc-tab-header {
+      border-bottom: 1px solid v.$color-beige-100;
+      background-color: v.$color-beige-50;
+      border-radius: v.$border-radius-2xl v.$border-radius-2xl 0 0;
+    }
+
+    .mat-mdc-tab-label-container {
+      padding: 0 v.$space-2;
+    }
+
+    .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+      color: v.$color-coral;
+      font-weight: 600;
+    }
+
+    .mdc-tab-indicator__content--underline {
+      border-color: v.$color-coral;
+    }
+
+    .mat-mdc-tab-body-wrapper {
+      padding: 0;
+    }
+  }
+}
+
+.tab-icon {
+  margin-right: v.$space-2;
+  font-size: 1.1rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  vertical-align: middle;
+
+  @include m.respond-to('sm') {
+    margin-right: 0;
+  }
+}
+
+.tab-label {
+  @include m.respond-to('sm') {
+    display: none;
+  }
+}
+
+// ────────────────────────────────────────────────
+// Tab body
+// ────────────────────────────────────────────────
+.tab-body {
+  padding: v.$space-8;
+
+  @include m.respond-to('sm') {
+    padding: v.$space-6 v.$space-4;
+  }
+}
+
+.tab-section-header {
+  margin-bottom: v.$space-6;
+  padding-bottom: v.$space-4;
+  border-bottom: 1px solid v.$color-beige-100;
+
+  h3 {
+    font-size: v.$font-size-xl;
+    font-weight: 700;
+    color: v.$color-text-primary;
+    margin: 0 0 v.$space-1 0;
+  }
+
+  p {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
+    margin: 0;
+  }
+}
+
+// ────────────────────────────────────────────────
+// Form layout
+// ────────────────────────────────────────────────
+.field-full {
+  width: 100%;
+  margin-bottom: v.$space-1;
+}
+
+.fields-row {
+  width: 100%;
+  margin-bottom: v.$space-1;
+
+  &.two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: v.$space-4;
+
+    @include m.respond-to('sm') {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}
+
+// ────────────────────────────────────────────────
+// Radio groups
+// ────────────────────────────────────────────────
+.radio-group {
+  margin-bottom: v.$space-5;
+
+  .radio-label {
+    display: block;
+    font-size: v.$font-size-sm;
+    font-weight: 500;
+    color: v.$color-text-secondary;
+    margin-bottom: v.$space-2;
+  }
+
+  .radio-options {
+    display: flex;
+    gap: v.$space-6;
+  }
+
+  .radio-error {
+    font-size: v.$font-size-xs;
+    color: var(--mat-sys-error, #f44336);
+    margin-top: v.$space-1;
+    padding-left: v.$space-4;
+  }
+}
+
+// ────────────────────────────────────────────────
+// CEP spinner
+// ────────────────────────────────────────────────
+.cep-spinner {
+  --mdc-circular-progress-active-indicator-color: #{v.$color-coral};
+  margin-right: v.$space-2;
+}
+
+// ────────────────────────────────────────────────
+// Security tip
+// ────────────────────────────────────────────────
+.security-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: v.$space-3;
+  background: v.$color-coral-50;
+  border: 1px solid v.$color-coral-100;
+  border-radius: v.$border-radius-lg;
+  padding: v.$space-4;
+  margin-bottom: v.$space-6;
+
+  mat-icon {
+    font-size: 1.1rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    color: v.$color-coral;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  span {
+    font-size: v.$font-size-sm;
+    color: v.$color-coral-dark;
+    line-height: 1.5;
+  }
+}
+
+// ────────────────────────────────────────────────
+// Form actions
+// ────────────────────────────────────────────────
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: v.$space-6;
+  padding-top: v.$space-4;
+  border-top: 1px solid v.$color-beige-100;
+}
+
+.btn-save {
+  height: 48px !important;
+  padding: 0 v.$space-6 !important;
+  font-size: v.$font-size-base !important;
+  font-weight: 600 !important;
+  border-radius: v.$border-radius-lg !important;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  transition: v.$transition-base !important;
+
+  mat-icon {
+    font-size: 1.1rem;
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  &:not([disabled]):hover {
+    box-shadow: 0 8px 20px rgba(v.$color-coral, 0.35);
+    transform: translateY(-1px);
+  }
+}
+
+.btn-spinner {
+  --mdc-circular-progress-active-indicator-color: #{v.$color-white};
+}
