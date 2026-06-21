@@ -1,1 +1,455 @@
-<p>Cadastro — em breve</p>
+<div class="register-page">
+
+  <!-- ────── Brand Panel (desktop) ────── -->
+  <aside class="brand-panel">
+    <div class="brand-content">
+      <div class="brand-logo">
+        <mat-icon class="brand-icon">pets</mat-icon>
+        <span class="brand-name">AdoPetMe</span>
+      </div>
+
+      <div class="brand-headline">
+        <h1>Faça parte<br>da nossa<br>comunidade</h1>
+        <p>Juntos transformamos vidas. Cada adoção começa com um cadastro.</p>
+      </div>
+
+      <div class="brand-process">
+        <div class="process-item">
+          <div class="process-icon">
+            <mat-icon>person_add</mat-icon>
+          </div>
+          <div class="process-text">
+            <span class="process-title">Crie sua conta</span>
+            <span class="process-desc">Rápido e gratuito</span>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">
+            <mat-icon>search</mat-icon>
+          </div>
+          <div class="process-text">
+            <span class="process-title">Encontre seu pet</span>
+            <span class="process-desc">Filtre por espécie e perfil</span>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">
+            <mat-icon>favorite</mat-icon>
+          </div>
+          <div class="process-text">
+            <span class="process-title">Adote com amor</span>
+            <span class="process-desc">Mude uma vida para sempre</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="paws-decoration" aria-hidden="true">
+      <mat-icon class="paw paw--lg">pets</mat-icon>
+      <mat-icon class="paw paw--md">pets</mat-icon>
+      <mat-icon class="paw paw--sm">pets</mat-icon>
+    </div>
+  </aside>
+
+  <!-- ────── Form Panel ────── -->
+  <main class="form-panel">
+    <div class="form-card animate-fade-in">
+
+      <!-- Logo (mobile only) -->
+      <div class="mobile-logo" aria-hidden="true">
+        <mat-icon class="brand-icon">pets</mat-icon>
+        <span class="brand-name">AdoPetMe</span>
+      </div>
+
+      <div class="form-header">
+        <h2>Criar conta</h2>
+        <p>Preencha os dados abaixo para começar</p>
+      </div>
+
+      <mat-stepper linear #stepper class="register-stepper">
+
+        <!-- ── Step 1: Dados Pessoais ── -->
+        <mat-step [stepControl]="dadosPessoaisForm" label="Dados Pessoais">
+          <form [formGroup]="dadosPessoaisForm" novalidate>
+
+            <mat-form-field appearance="outline" class="field-full">
+              <mat-label>Nome completo</mat-label>
+              <mat-icon matPrefix>person_outline</mat-icon>
+              <input
+                matInput
+                formControlName="nomeCompleto"
+                placeholder="Seu nome completo"
+                autocomplete="name"
+              />
+              <mat-error *ngIf="dadosPessoaisForm.get('nomeCompleto')?.hasError('required')">
+                Nome é obrigatório
+              </mat-error>
+              <mat-error *ngIf="dadosPessoaisForm.get('nomeCompleto')?.hasError('minlength')">
+                Mínimo 3 caracteres
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field-full">
+              <mat-label>E-mail</mat-label>
+              <mat-icon matPrefix>mail_outline</mat-icon>
+              <input
+                matInput
+                type="email"
+                formControlName="email"
+                placeholder="seu@email.com"
+                autocomplete="email"
+              />
+              <mat-error *ngIf="dadosPessoaisForm.get('email')?.hasError('required')">
+                E-mail é obrigatório
+              </mat-error>
+              <mat-error *ngIf="dadosPessoaisForm.get('email')?.hasError('email')">
+                Informe um e-mail válido
+              </mat-error>
+            </mat-form-field>
+
+            <div class="fields-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>CPF</mat-label>
+                <mat-icon matPrefix>badge</mat-icon>
+                <input
+                  matInput
+                  formControlName="cpf"
+                  placeholder="000.000.000-00"
+                  [mask]="'000.000.000-00'"
+                />
+                <mat-error *ngIf="dadosPessoaisForm.get('cpf')?.hasError('required')">
+                  CPF é obrigatório
+                </mat-error>
+                <mat-error *ngIf="dadosPessoaisForm.get('cpf')?.hasError('minlength') || dadosPessoaisForm.get('cpf')?.hasError('maxlength')">
+                  CPF inválido
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Data de nascimento</mat-label>
+                <mat-icon matPrefix>cake</mat-icon>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="dataNascimento"
+                  placeholder="DD/MM/AAAA"
+                  readonly
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker startView="multi-year"></mat-datepicker>
+                <mat-error *ngIf="dadosPessoaisForm.get('dataNascimento')?.hasError('required')">
+                  Data é obrigatória
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="field-full">
+              <mat-label>Telefone / WhatsApp</mat-label>
+              <mat-icon matPrefix>phone</mat-icon>
+              <input
+                matInput
+                formControlName="telefone"
+                placeholder="(11) 99999-9999"
+                [mask]="'(00) 00000-0000||(00) 0000-0000'"
+              />
+              <mat-error *ngIf="dadosPessoaisForm.get('telefone')?.hasError('required')">
+                Telefone é obrigatório
+              </mat-error>
+              <mat-error *ngIf="dadosPessoaisForm.get('telefone')?.hasError('minlength')">
+                Número inválido
+              </mat-error>
+            </mat-form-field>
+
+            <div class="fields-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>Senha</mat-label>
+                <mat-icon matPrefix>lock_outline</mat-icon>
+                <input
+                  matInput
+                  [type]="hideSenha ? 'password' : 'text'"
+                  formControlName="senha"
+                  placeholder="Mínimo 8 caracteres"
+                  autocomplete="new-password"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  [attr.aria-label]="hideSenha ? 'Mostrar senha' : 'Ocultar senha'"
+                  (click)="hideSenha = !hideSenha"
+                >
+                  <mat-icon>{{ hideSenha ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="dadosPessoaisForm.get('senha')?.hasError('required')">
+                  Senha é obrigatória
+                </mat-error>
+                <mat-error *ngIf="dadosPessoaisForm.get('senha')?.hasError('minlength')">
+                  Mínimo 8 caracteres
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Confirmar senha</mat-label>
+                <mat-icon matPrefix>lock_outline</mat-icon>
+                <input
+                  matInput
+                  [type]="hideConfirmar ? 'password' : 'text'"
+                  formControlName="confirmarSenha"
+                  placeholder="Repita a senha"
+                  autocomplete="new-password"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  [attr.aria-label]="hideConfirmar ? 'Mostrar senha' : 'Ocultar senha'"
+                  (click)="hideConfirmar = !hideConfirmar"
+                >
+                  <mat-icon>{{ hideConfirmar ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="dadosPessoaisForm.get('confirmarSenha')?.hasError('required')">
+                  Confirmação é obrigatória
+                </mat-error>
+                <mat-error *ngIf="dadosPessoaisForm.get('confirmarSenha')?.hasError('senhasNaoCoincidem')">
+                  As senhas não coincidem
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="step-actions">
+              <button
+                mat-flat-button
+                color="primary"
+                matStepperNext
+                class="btn-next"
+                type="button"
+                (click)="dadosPessoaisForm.markAllAsTouched()"
+              >
+                Próximo
+                <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+              </button>
+            </div>
+
+          </form>
+        </mat-step>
+
+        <!-- ── Step 2: Endereço ── -->
+        <mat-step [stepControl]="enderecoForm" label="Endereço">
+          <form [formGroup]="enderecoForm" novalidate>
+
+            <div class="fields-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>CEP</mat-label>
+                <mat-icon matPrefix>location_on</mat-icon>
+                <input
+                  matInput
+                  formControlName="cep"
+                  placeholder="00000-000"
+                  [mask]="'00000-000'"
+                  (blur)="buscarCep()"
+                />
+                <mat-spinner
+                  *ngIf="loadingCep"
+                  matSuffix
+                  diameter="18"
+                  class="cep-spinner"
+                ></mat-spinner>
+                <mat-error *ngIf="enderecoForm.get('cep')?.hasError('required')">
+                  CEP é obrigatório
+                </mat-error>
+                <mat-error *ngIf="enderecoForm.get('cep')?.hasError('minlength') || enderecoForm.get('cep')?.hasError('maxlength')">
+                  CEP inválido
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Estado</mat-label>
+                <mat-icon matPrefix>map</mat-icon>
+                <mat-select formControlName="estado">
+                  <mat-option *ngFor="let uf of estados" [value]="uf">{{ uf }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="enderecoForm.get('estado')?.hasError('required')">
+                  Estado é obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="field-full">
+              <mat-label>Logradouro</mat-label>
+              <mat-icon matPrefix>home</mat-icon>
+              <input
+                matInput
+                formControlName="logradouro"
+                placeholder="Rua, Avenida..."
+                autocomplete="street-address"
+              />
+              <mat-error *ngIf="enderecoForm.get('logradouro')?.hasError('required')">
+                Logradouro é obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <div class="fields-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>Número</mat-label>
+                <input matInput formControlName="numero" placeholder="Nº" />
+                <mat-error *ngIf="enderecoForm.get('numero')?.hasError('required')">
+                  Número é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Complemento</mat-label>
+                <input
+                  matInput
+                  formControlName="complemento"
+                  placeholder="Apto, Bloco... (opcional)"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="fields-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>Bairro</mat-label>
+                <input matInput formControlName="bairro" placeholder="Bairro" />
+                <mat-error *ngIf="enderecoForm.get('bairro')?.hasError('required')">
+                  Bairro é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Cidade</mat-label>
+                <input matInput formControlName="cidade" placeholder="Cidade" />
+                <mat-error *ngIf="enderecoForm.get('cidade')?.hasError('required')">
+                  Cidade é obrigatória
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="step-actions">
+              <button mat-stroked-button matStepperPrevious class="btn-back" type="button">
+                <mat-icon>arrow_back</mat-icon>
+                Voltar
+              </button>
+              <button
+                mat-flat-button
+                color="primary"
+                matStepperNext
+                class="btn-next"
+                type="button"
+                (click)="enderecoForm.markAllAsTouched()"
+              >
+                Próximo
+                <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+              </button>
+            </div>
+
+          </form>
+        </mat-step>
+
+        <!-- ── Step 3: Perfil do Adotante ── -->
+        <mat-step [stepControl]="perfilForm" label="Perfil">
+          <form [formGroup]="perfilForm" novalidate>
+
+            <div class="fields-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>Tipo de moradia</mat-label>
+                <mat-icon matPrefix>apartment</mat-icon>
+                <mat-select formControlName="tipoMoradia">
+                  <mat-option value="casa">Casa</mat-option>
+                  <mat-option value="apartamento">Apartamento</mat-option>
+                  <mat-option value="chacara">Chácara / Fazenda</mat-option>
+                  <mat-option value="outro">Outro</mat-option>
+                </mat-select>
+                <mat-error *ngIf="perfilForm.get('tipoMoradia')?.hasError('required')">
+                  Selecione o tipo de moradia
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Experiência com animais</mat-label>
+                <mat-icon matPrefix>grade</mat-icon>
+                <mat-select formControlName="experienciaAnimais">
+                  <mat-option value="nenhuma">Nenhuma</mat-option>
+                  <mat-option value="basica">Básica</mat-option>
+                  <mat-option value="moderada">Moderada</mat-option>
+                  <mat-option value="avancada">Avançada</mat-option>
+                </mat-select>
+                <mat-error *ngIf="perfilForm.get('experienciaAnimais')?.hasError('required')">
+                  Selecione sua experiência
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="radio-group">
+              <label class="radio-label">Tem quintal ou área externa?</label>
+              <mat-radio-group formControlName="temQuintal" class="radio-options">
+                <mat-radio-button value="sim" color="primary">Sim</mat-radio-button>
+                <mat-radio-button value="nao" color="primary">Não</mat-radio-button>
+              </mat-radio-group>
+              <div
+                class="radio-error"
+                *ngIf="perfilForm.get('temQuintal')?.hasError('required') && perfilForm.get('temQuintal')?.touched"
+              >
+                Selecione uma opção
+              </div>
+            </div>
+
+            <div class="radio-group">
+              <label class="radio-label">Já tem outros animais em casa?</label>
+              <mat-radio-group formControlName="temOutrosAnimais" class="radio-options">
+                <mat-radio-button value="sim" color="primary">Sim</mat-radio-button>
+                <mat-radio-button value="nao" color="primary">Não</mat-radio-button>
+              </mat-radio-group>
+              <div
+                class="radio-error"
+                *ngIf="perfilForm.get('temOutrosAnimais')?.hasError('required') && perfilForm.get('temOutrosAnimais')?.touched"
+              >
+                Selecione uma opção
+              </div>
+            </div>
+
+            <mat-form-field appearance="outline" class="field-full">
+              <mat-label>Por que deseja adotar? (opcional)</mat-label>
+              <mat-icon matPrefix>edit_note</mat-icon>
+              <textarea
+                matInput
+                formControlName="motivacao"
+                rows="3"
+                placeholder="Conte-nos um pouco sobre sua motivação..."
+              ></textarea>
+            </mat-form-field>
+
+            <div class="step-actions">
+              <button mat-stroked-button matStepperPrevious class="btn-back" type="button">
+                <mat-icon>arrow_back</mat-icon>
+                Voltar
+              </button>
+              <button
+                mat-flat-button
+                color="primary"
+                class="btn-submit"
+                type="button"
+                [disabled]="loading"
+                (click)="perfilForm.markAllAsTouched(); onSubmit()"
+              >
+                <mat-spinner *ngIf="loading" diameter="20" class="btn-spinner"></mat-spinner>
+                <span *ngIf="!loading">Criar conta</span>
+              </button>
+            </div>
+
+          </form>
+        </mat-step>
+
+      </mat-stepper>
+
+      <mat-divider class="divider"></mat-divider>
+
+      <p class="login-cta">
+        Já tem uma conta?
+        <a routerLink="/login" class="link-login">Entrar</a>
+      </p>
+
+    </div>
+  </main>
+
+</div>

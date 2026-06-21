@@ -1,0 +1,415 @@
+@use '../../../../../styles/variables' as v;
+@use '../../../../../styles/mixins' as m;
+
+// ────────────────────────────────────────────────
+// Page layout
+// ────────────────────────────────────────────────
+.register-page {
+  display: flex;
+  min-height: calc(100vh - 72px);
+}
+
+// ────────────────────────────────────────────────
+// Brand Panel (left — hidden on mobile)
+// ────────────────────────────────────────────────
+.brand-panel {
+  @include m.gradient-hero;
+  width: 40%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: v.$space-12 v.$space-10;
+
+  @include m.respond-to('md') {
+    display: none;
+  }
+}
+
+.brand-content {
+  position: relative;
+  z-index: 2;
+  color: v.$color-white;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: v.$space-3;
+  margin-bottom: v.$space-10;
+
+  .brand-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    color: rgba(v.$color-white, 0.95);
+  }
+
+  .brand-name {
+    font-size: v.$font-size-2xl;
+    font-weight: 700;
+    color: v.$color-white;
+    letter-spacing: -0.02em;
+  }
+}
+
+.brand-headline {
+  margin-bottom: v.$space-10;
+
+  h1 {
+    font-size: v.$font-size-4xl;
+    font-weight: 700;
+    color: v.$color-white;
+    line-height: 1.15;
+    margin: 0 0 v.$space-5 0;
+  }
+
+  p {
+    font-size: v.$font-size-lg;
+    color: rgba(v.$color-white, 0.8);
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// ────────────────────────────────────────────────
+// Process steps in brand panel
+// ────────────────────────────────────────────────
+.brand-process {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-5;
+}
+
+.process-item {
+  display: flex;
+  align-items: center;
+  gap: v.$space-4;
+}
+
+.process-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: v.$border-radius-lg;
+  background: rgba(v.$color-white, 0.15);
+  @include m.flex-center;
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: v.$color-white;
+  }
+}
+
+.process-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.process-title {
+  font-size: v.$font-size-base;
+  font-weight: 600;
+  color: v.$color-white;
+}
+
+.process-desc {
+  font-size: v.$font-size-sm;
+  color: rgba(v.$color-white, 0.7);
+}
+
+// Decorative paw prints
+.paws-decoration {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.paw {
+  position: absolute;
+  color: rgba(v.$color-white, 0.07);
+
+  &--lg {
+    font-size: 200px;
+    width: 200px;
+    height: 200px;
+    bottom: -30px;
+    right: -30px;
+  }
+
+  &--md {
+    font-size: 110px;
+    width: 110px;
+    height: 110px;
+    bottom: 160px;
+    right: 120px;
+  }
+
+  &--sm {
+    font-size: 70px;
+    width: 70px;
+    height: 70px;
+    top: 50px;
+    right: 40px;
+  }
+}
+
+// ────────────────────────────────────────────────
+// Form Panel (right — scrollable)
+// ────────────────────────────────────────────────
+.form-panel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: v.$space-8 v.$space-6;
+  background-color: v.$color-beige-50;
+  overflow-y: auto;
+
+  @include m.respond-to('sm') {
+    padding: v.$space-6 v.$space-4;
+  }
+}
+
+.form-card {
+  width: 100%;
+  max-width: 580px;
+  background: v.$color-white;
+  border-radius: v.$border-radius-2xl;
+  box-shadow: v.$shadow-xl;
+  padding: v.$space-10 v.$space-8;
+  margin: auto 0;
+
+  @include m.respond-to('sm') {
+    padding: v.$space-8 v.$space-5;
+    border-radius: v.$border-radius-xl;
+  }
+}
+
+// ────────────────────────────────────────────────
+// Mobile logo (only when brand panel is hidden)
+// ────────────────────────────────────────────────
+.mobile-logo {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: v.$space-2;
+  margin-bottom: v.$space-8;
+
+  @include m.respond-to('md') {
+    display: flex;
+  }
+
+  .brand-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    color: v.$color-coral;
+  }
+
+  .brand-name {
+    font-size: v.$font-size-2xl;
+    font-weight: 700;
+    color: v.$color-coral;
+    letter-spacing: -0.02em;
+  }
+}
+
+// ────────────────────────────────────────────────
+// Form header
+// ────────────────────────────────────────────────
+.form-header {
+  margin-bottom: v.$space-6;
+
+  h2 {
+    font-size: v.$font-size-3xl;
+    font-weight: 700;
+    color: v.$color-text-primary;
+    margin: 0 0 v.$space-2 0;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: v.$font-size-base;
+    color: v.$color-text-secondary;
+    margin: 0;
+  }
+}
+
+// ────────────────────────────────────────────────
+// Stepper
+// ────────────────────────────────────────────────
+.register-stepper {
+  background: transparent;
+
+  ::ng-deep {
+    .mat-stepper-horizontal-line {
+      border-top-color: v.$color-beige-mid;
+    }
+
+    .mat-step-header .mat-step-icon-selected,
+    .mat-step-header .mat-step-icon-state-done,
+    .mat-step-header .mat-step-icon-state-edit {
+      background-color: v.$color-coral;
+    }
+
+    .mat-step-header .mat-step-label-active {
+      color: v.$color-text-primary;
+      font-weight: 500;
+    }
+
+    .mat-step-header .mat-step-label-selected {
+      font-weight: 600;
+      color: v.$color-coral;
+    }
+
+    .mat-stepper-horizontal {
+      padding: 0;
+    }
+
+    .mat-horizontal-content-container {
+      padding: v.$space-6 0 0;
+    }
+
+    .mat-horizontal-stepper-header-container {
+      margin-bottom: v.$space-2;
+    }
+  }
+}
+
+// ────────────────────────────────────────────────
+// Form fields
+// ────────────────────────────────────────────────
+.field-full {
+  width: 100%;
+  margin-bottom: v.$space-1;
+}
+
+.fields-row {
+  width: 100%;
+  margin-bottom: v.$space-1;
+
+  &.two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: v.$space-4;
+
+    @include m.respond-to('sm') {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}
+
+// ────────────────────────────────────────────────
+// Radio groups
+// ────────────────────────────────────────────────
+.radio-group {
+  margin-bottom: v.$space-5;
+
+  .radio-label {
+    display: block;
+    font-size: v.$font-size-sm;
+    font-weight: 500;
+    color: v.$color-text-secondary;
+    margin-bottom: v.$space-2;
+  }
+
+  .radio-options {
+    display: flex;
+    gap: v.$space-6;
+  }
+
+  .radio-error {
+    font-size: v.$font-size-xs;
+    color: var(--mat-sys-error, #f44336);
+    margin-top: v.$space-1;
+    padding-left: v.$space-4;
+  }
+}
+
+// ────────────────────────────────────────────────
+// CEP spinner
+// ────────────────────────────────────────────────
+.cep-spinner {
+  --mdc-circular-progress-active-indicator-color: #{v.$color-coral};
+  margin-right: v.$space-2;
+}
+
+// ────────────────────────────────────────────────
+// Step action buttons
+// ────────────────────────────────────────────────
+.step-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: v.$space-3;
+  margin-top: v.$space-4;
+  padding-top: v.$space-4;
+  border-top: 1px solid v.$color-beige-100;
+}
+
+.btn-back {
+  height: 48px !important;
+  font-weight: 500 !important;
+  border-radius: v.$border-radius-lg !important;
+  border-color: v.$color-beige-mid !important;
+  color: v.$color-text-secondary !important;
+  display: flex;
+  align-items: center;
+  gap: v.$space-1;
+}
+
+.btn-next,
+.btn-submit {
+  height: 48px !important;
+  padding: 0 v.$space-6 !important;
+  font-size: v.$font-size-base !important;
+  font-weight: 600 !important;
+  border-radius: v.$border-radius-lg !important;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  transition: v.$transition-base !important;
+
+  &:not([disabled]):hover {
+    box-shadow: 0 8px 20px rgba(v.$color-coral, 0.35);
+    transform: translateY(-1px);
+  }
+}
+
+.btn-spinner {
+  --mdc-circular-progress-active-indicator-color: #{v.$color-white};
+}
+
+// ────────────────────────────────────────────────
+// Card footer
+// ────────────────────────────────────────────────
+.divider {
+  margin: v.$space-6 0;
+}
+
+.login-cta {
+  text-align: center;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-secondary;
+  margin: 0;
+}
+
+.link-login {
+  font-weight: 600;
+  color: v.$color-coral;
+
+  &:hover {
+    color: v.$color-coral-dark;
+  }
+}
