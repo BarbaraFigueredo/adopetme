@@ -1,1 +1,249 @@
-<p>Home — em breve</p>
+<div class="home-page">
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- HERO BANNER                                           -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="container hero__inner">
+
+      <!-- Conteúdo esquerdo -->
+      <div class="hero__content animate-fade-in">
+        <span class="hero__eyebrow">
+          <mat-icon>pets</mat-icon>
+          Plataforma de adoção de animais
+        </span>
+
+        <h1 class="hero__title">
+          Encontre seu<br>
+          <span class="hero__title-accent">companheiro</span> perfeito
+        </h1>
+
+        <p class="hero__subtitle">
+          Conectamos animais que precisam de amor com famílias que têm amor
+          para dar. Adotar é um ato que transforma duas vidas.
+        </p>
+
+        <div class="hero__actions">
+          <button mat-raised-button class="hero__btn-primary" routerLink="/pets">
+            <mat-icon>pets</mat-icon>
+            Adotar agora
+          </button>
+          <button mat-stroked-button class="hero__btn-secondary" routerLink="/pets">
+            <mat-icon>search</mat-icon>
+            Conheça os pets
+          </button>
+        </div>
+
+        <div class="hero__stats">
+          <div *ngFor="let stat of stats" class="hero__stat">
+            <span class="hero__stat-value">{{ stat.value }}</span>
+            <span class="hero__stat-label">{{ stat.label }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual direita -->
+      <div class="hero__visual">
+        <div class="hero__image-wrapper">
+          <img
+            src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=580&h=640&fit=crop"
+            alt="Cachorro feliz aguardando adoção"
+            class="hero__image"
+          />
+          <div class="hero__floating-card">
+            <div class="hero__floating-icon">
+              <mat-icon>favorite</mat-icon>
+            </div>
+            <div class="hero__floating-text">
+              <span class="hero__floating-title">Nova adoção!</span>
+              <span class="hero__floating-sub">Mel encontrou sua família ♥</span>
+            </div>
+          </div>
+          <div class="hero__badge">
+            <mat-icon>verified</mat-icon>
+            <span>100% gratuito</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Wave para branco -->
+    <div class="hero__wave">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ANIMAIS EM DESTAQUE                                   -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="featured section">
+    <div class="container">
+
+      <div class="section-header">
+        <h2 class="section-title">
+          Animais em <span class="text-accent">destaque</span>
+        </h2>
+        <p class="section-subtitle">
+          Conheça alguns dos nossos companheiros que estão esperando
+          por um lar cheio de amor
+        </p>
+      </div>
+
+      <div class="pet-grid">
+        <div *ngFor="let pet of featuredPets" class="pet-card">
+
+          <div class="pet-card__image-wrapper">
+            <img
+              [src]="pet.imageUrl"
+              [alt]="'Foto de ' + pet.name"
+              class="pet-card__image"
+            />
+            <span
+              class="pet-card__status"
+              [class.pet-card__status--reserved]="!pet.available">
+              {{ pet.available ? 'Disponível' : 'Reservado' }}
+            </span>
+            <button mat-icon-button class="pet-card__favorite" aria-label="Favoritar">
+              <mat-icon>favorite_border</mat-icon>
+            </button>
+          </div>
+
+          <div class="pet-card__body">
+            <div class="pet-card__header">
+              <h3 class="pet-card__name">{{ pet.name }}</h3>
+              <span class="pet-card__species-chip">{{ pet.species }}</span>
+            </div>
+            <p class="pet-card__breed">{{ pet.breed }}</p>
+            <div class="pet-card__meta">
+              <span class="pet-card__meta-item">
+                <mat-icon>cake</mat-icon>{{ pet.age }}
+              </span>
+              <span class="pet-card__meta-item">
+                <mat-icon>location_on</mat-icon>{{ pet.location }}
+              </span>
+            </div>
+          </div>
+
+          <div class="pet-card__footer">
+            <button mat-raised-button color="primary" class="pet-card__cta">
+              Ver perfil
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="featured__footer">
+        <button mat-stroked-button color="primary" class="featured__view-all" routerLink="/pets">
+          <mat-icon>grid_view</mat-icon>
+          Ver todos os animais
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- COMO FUNCIONA                                         -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="how-it-works">
+    <div class="container">
+
+      <div class="section-header">
+        <h2 class="section-title">
+          Como <span class="text-accent">funciona</span>
+        </h2>
+        <p class="section-subtitle">
+          Adotar pelo AdoPetMe é simples, rápido e gratuito.
+        </p>
+      </div>
+
+      <div class="steps">
+        <ng-container *ngFor="let step of steps; let last = last">
+          <div class="step-card">
+            <div class="step-card__icon-wrapper">
+              <div class="step-card__number">{{ step.number }}</div>
+              <div class="step-card__icon">
+                <mat-icon>{{ step.icon }}</mat-icon>
+              </div>
+            </div>
+            <div class="step-card__content">
+              <h3 class="step-card__title">{{ step.title }}</h3>
+              <p class="step-card__desc">{{ step.description }}</p>
+            </div>
+          </div>
+          <div class="step-arrow" *ngIf="!last">
+            <mat-icon>arrow_forward_ios</mat-icon>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="how-it-works__cta">
+        <button mat-raised-button color="primary" class="how-it-works__btn" routerLink="/auth/cadastro">
+          <mat-icon>person_add</mat-icon>
+          Começar agora — é gratuito!
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- TEASER DE HISTÓRIAS DE SUCESSO                        -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="stories section">
+    <div class="container">
+
+      <div class="section-header">
+        <h2 class="section-title">
+          Histórias de <span class="text-accent">sucesso</span>
+        </h2>
+        <p class="section-subtitle">
+          Cada adoção é uma história de amor. Conheça algumas das famílias
+          que se formaram pelo AdoPetMe.
+        </p>
+      </div>
+
+      <div class="story-grid">
+        <div *ngFor="let story of stories" class="story-card">
+
+          <div class="story-card__image-wrapper">
+            <img
+              [src]="story.imageUrl"
+              [alt]="'História de ' + story.petName"
+              class="story-card__image"
+            />
+            <div class="story-card__overlay">
+              <mat-icon>favorite</mat-icon>
+            </div>
+          </div>
+
+          <div class="story-card__body">
+            <div class="story-card__header">
+              <span class="story-card__pet-name">{{ story.petName }}</span>
+              <span class="story-card__date">{{ story.date }}</span>
+            </div>
+            <blockquote class="story-card__quote">"{{ story.testimonial }}"</blockquote>
+            <div class="story-card__adopter">
+              <mat-icon>person</mat-icon>
+              <span>{{ story.adopterName }}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="stories__footer">
+        <button mat-stroked-button color="primary" class="stories__view-all">
+          <mat-icon>auto_stories</mat-icon>
+          Ver todas as histórias
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+</div>
