@@ -1,1 +1,304 @@
-<p>Pets — em breve</p>
+<div class="pets-page">
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- HERO                                                   -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__content animate-fade-in">
+        <span class="hero__eyebrow">
+          <mat-icon>pets</mat-icon>
+          Catálogo de animais
+        </span>
+        <h1 class="hero__title">
+          Encontre seu<br>
+          <span class="hero__title-accent">companheiro</span> ideal
+        </h1>
+        <p class="hero__subtitle">
+          <strong>{{ allPets.length }} animais</strong> aguardam por um lar cheio de amor.
+          Use os filtros para encontrar o parceiro perfeito para você.
+        </p>
+      </div>
+    </div>
+    <div class="hero__wave">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SPECIES QUICK FILTER                                   -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="species-bar">
+    <div class="container">
+      <div class="species-chips">
+        <button
+          *ngFor="let opt of speciesOptions"
+          class="species-chip"
+          [class.species-chip--active]="species === opt.value"
+          (click)="species = opt.value">
+          <mat-icon>{{ opt.icon }}</mat-icon>
+          <span>{{ opt.label }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- CATALOG: SIDEBAR + GRID                               -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="catalog">
+    <div class="container catalog__inner">
+
+      <!-- ─── SIDEBAR DE FILTROS ──────────────────────── -->
+      <aside class="filters-panel" [class.filters-panel--open]="filtersOpen">
+
+        <div class="filters-panel__header">
+          <span class="filters-panel__title">
+            <mat-icon>tune</mat-icon>
+            Filtros
+          </span>
+          <button mat-icon-button class="filters-panel__close" (click)="filtersOpen = false">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <!-- Porte -->
+        <div class="filter-section">
+          <h4 class="filter-section__label">Porte</h4>
+          <div class="filter-chips">
+            <button
+              *ngFor="let opt of sizeOptions"
+              class="filter-chip"
+              [class.filter-chip--active]="size === opt.value"
+              (click)="size = opt.value">
+              {{ opt.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Fase de vida -->
+        <div class="filter-section">
+          <h4 class="filter-section__label">Fase de vida</h4>
+          <div class="filter-chips">
+            <button
+              *ngFor="let opt of ageGroupOptions"
+              class="filter-chip"
+              [class.filter-chip--active]="ageGroup === opt.value"
+              (click)="ageGroup = opt.value">
+              {{ opt.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Temperamento -->
+        <div class="filter-section">
+          <h4 class="filter-section__label">Temperamento</h4>
+          <div class="filter-chips">
+            <button
+              *ngFor="let opt of temperamentOptions"
+              class="filter-chip"
+              [class.filter-chip--active]="temperament === opt.value"
+              (click)="temperament = opt.value">
+              {{ opt.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Cor predominante -->
+        <div class="filter-section">
+          <h4 class="filter-section__label">Cor predominante</h4>
+          <div class="color-swatches">
+            <button
+              *ngFor="let opt of colorOptions"
+              class="color-swatch"
+              [class.color-swatch--active]="color === opt.value"
+              [matTooltip]="opt.label"
+              (click)="color = opt.value">
+              <span
+                *ngIf="opt.hex"
+                class="color-swatch__dot"
+                [style.background]="opt.hex">
+              </span>
+              <mat-icon *ngIf="!opt.hex" class="color-swatch__all-icon">palette</mat-icon>
+            </button>
+          </div>
+          <span class="color-label" *ngIf="color">{{ color }}</span>
+          <span class="color-label color-label--muted" *ngIf="!color">Todas as cores</span>
+        </div>
+
+        <!-- Limpar filtros -->
+        <button
+          *ngIf="hasActiveFilters"
+          mat-stroked-button
+          class="filters-panel__clear"
+          (click)="clearFilters()">
+          <mat-icon>clear_all</mat-icon>
+          Limpar filtros
+        </button>
+
+      </aside>
+
+      <!-- ─── CONTEÚDO (GRID) ──────────────────────────── -->
+      <div class="catalog__content">
+
+        <!-- Toolbar -->
+        <div class="catalog__toolbar">
+          <div class="catalog__results-info">
+            <span class="catalog__count">
+              <strong>{{ filteredPets.length }}</strong>
+              {{ filteredPets.length === 1 ? 'animal encontrado' : 'animais encontrados' }}
+            </span>
+            <span *ngIf="hasActiveFilters" class="catalog__filter-badge">
+              {{ activeFilterCount }} filtro{{ activeFilterCount > 1 ? 's' : '' }} ativo{{ activeFilterCount > 1 ? 's' : '' }}
+            </span>
+          </div>
+          <button
+            mat-stroked-button
+            class="catalog__filter-toggle"
+            (click)="filtersOpen = !filtersOpen">
+            <mat-icon>tune</mat-icon>
+            Filtros
+            <span *ngIf="activeFilterCount > 0" class="catalog__filter-toggle-badge">
+              {{ activeFilterCount }}
+            </span>
+          </button>
+        </div>
+
+        <!-- Tags de filtros ativos -->
+        <div *ngIf="hasActiveFilters" class="active-filters">
+          <div class="active-filters__chips">
+            <span *ngIf="species" class="active-filter-chip">
+              {{ speciesLabel(species) }}
+              <button class="active-filter-chip__remove" (click)="species = ''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </span>
+            <span *ngIf="size" class="active-filter-chip">
+              {{ sizeLabel(size) }}
+              <button class="active-filter-chip__remove" (click)="size = ''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </span>
+            <span *ngIf="ageGroup" class="active-filter-chip">
+              {{ ageGroup | titlecase }}
+              <button class="active-filter-chip__remove" (click)="ageGroup = ''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </span>
+            <span *ngIf="temperament" class="active-filter-chip">
+              {{ temperament }}
+              <button class="active-filter-chip__remove" (click)="temperament = ''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </span>
+            <span *ngIf="color" class="active-filter-chip">
+              <span
+                class="active-filter-chip__color-dot"
+                [style.background]="colorHex(color)">
+              </span>
+              {{ color }}
+              <button class="active-filter-chip__remove" (click)="color = ''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </span>
+          </div>
+          <button mat-button class="active-filters__clear-all" (click)="clearFilters()">
+            Limpar tudo
+          </button>
+        </div>
+
+        <!-- Grid de animais -->
+        <div class="pet-grid" *ngIf="filteredPets.length > 0">
+          <div *ngFor="let pet of filteredPets" class="pet-card">
+
+            <div class="pet-card__image-wrapper">
+              <img
+                [src]="pet.imageUrl"
+                [alt]="'Foto de ' + pet.name"
+                class="pet-card__image"
+              />
+              <span
+                class="pet-card__status"
+                [class.pet-card__status--reservado]="pet.status === 'reservado'"
+                [class.pet-card__status--em_adocao]="pet.status === 'em_adocao'"
+                [class.pet-card__status--adotado]="pet.status === 'adotado'">
+                {{ statusLabel(pet.status) }}
+              </span>
+              <button mat-icon-button class="pet-card__favorite" aria-label="Favoritar">
+                <mat-icon>favorite_border</mat-icon>
+              </button>
+              <div class="pet-card__sex" [class.pet-card__sex--femea]="pet.sex === 'femea'">
+                <mat-icon>{{ pet.sex === 'macho' ? 'male' : 'female' }}</mat-icon>
+              </div>
+            </div>
+
+            <div class="pet-card__body">
+              <div class="pet-card__header">
+                <h3 class="pet-card__name">{{ pet.name }}</h3>
+                <span class="pet-card__species-chip">
+                  <mat-icon>{{ speciesIcon(pet.species) }}</mat-icon>
+                  {{ speciesLabel(pet.species) }}
+                </span>
+              </div>
+
+              <p class="pet-card__breed">{{ pet.breed }}</p>
+
+              <div class="pet-card__tags">
+                <span class="pet-card__tag pet-card__tag--size">
+                  {{ sizeLabel(pet.size) }} porte
+                </span>
+                <span
+                  class="pet-card__tag"
+                  *ngFor="let t of pet.temperament.slice(0, 2)">
+                  {{ t }}
+                </span>
+              </div>
+
+              <div class="pet-card__meta">
+                <span class="pet-card__meta-item">
+                  <mat-icon>cake</mat-icon>{{ pet.age }}
+                </span>
+                <span class="pet-card__meta-item">
+                  <span class="pet-card__color-dot" [style.background]="colorHex(pet.color)"></span>
+                  {{ pet.color }}
+                </span>
+                <span class="pet-card__meta-item">
+                  <mat-icon>location_on</mat-icon>{{ pet.location }}
+                </span>
+              </div>
+
+              <p class="pet-card__desc">{{ pet.description }}</p>
+            </div>
+
+            <div class="pet-card__footer">
+              <button mat-raised-button color="primary" class="pet-card__cta">
+                <mat-icon>pets</mat-icon>
+                Ver perfil
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div *ngIf="filteredPets.length === 0" class="empty-state">
+          <div class="empty-state__icon">
+            <mat-icon>search_off</mat-icon>
+          </div>
+          <h3 class="empty-state__title">Nenhum animal encontrado</h3>
+          <p class="empty-state__desc">
+            Tente ajustar os filtros para encontrar outros companheiros disponíveis.
+          </p>
+          <button mat-raised-button color="primary" (click)="clearFilters()">
+            <mat-icon>refresh</mat-icon>
+            Limpar filtros
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
