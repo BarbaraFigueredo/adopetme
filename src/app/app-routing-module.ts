@@ -22,6 +22,13 @@ const routes: Routes = [
       import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
   {
+    path: 'historias',
+    loadChildren: () =>
+      import('./features/success-stories/success-stories.module').then(
+        (m) => m.SuccessStoriesModule
+      ),
+  },
+  {
     path: 'profile',
     canActivate: [authGuard],
     loadChildren: () =>

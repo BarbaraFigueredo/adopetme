@@ -1,0 +1,168 @@
+<div class="stories-page">
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- HERO                                                  -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="stories-hero">
+    <div class="container stories-hero__inner">
+
+      <div class="stories-hero__content animate-fade-in">
+        <span class="stories-hero__eyebrow">
+          <mat-icon>auto_stories</mat-icon>
+          Histórias reais de amor
+        </span>
+        <h1 class="stories-hero__title">
+          Histórias de <span class="stories-hero__accent">Sucesso</span>
+        </h1>
+        <p class="stories-hero__subtitle">
+          Cada adoção é o início de uma história inesquecível. Conheça as famílias
+          que encontraram seu companheiro ideal pelo AdoPetMe.
+        </p>
+      </div>
+
+      <div class="stories-hero__stats">
+        <div *ngFor="let stat of stats" class="stories-hero__stat">
+          <span class="stories-hero__stat-value">{{ stat.value }}</span>
+          <span class="stories-hero__stat-label">{{ stat.label }}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="stories-hero__wave">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- FILTROS POR ESPÉCIE                                   -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="filters-section">
+    <div class="container">
+      <div class="filter-bar">
+        <button
+          *ngFor="let f of filters"
+          class="filter-chip"
+          [class.filter-chip--active]="activeFilter === f.value"
+          (click)="setFilter(f.value)"
+        >
+          <mat-icon>{{ f.icon }}</mat-icon>
+          <span>{{ f.label }}</span>
+          <span class="filter-chip__count">{{ countByFilter(f.value) }}</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- GRID DE HISTÓRIAS                                     -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="stories-grid-section">
+    <div class="container">
+
+      <div class="stories-grid" *ngIf="filteredStories.length > 0; else emptyState">
+        <div
+          *ngFor="let story of filteredStories"
+          class="story-card"
+          [class.story-card--featured]="story.featured"
+        >
+
+          <!-- Imagem -->
+          <div class="story-card__image-wrapper">
+            <img
+              [src]="story.imageUrl"
+              [alt]="'Foto de ' + story.petName + ' com ' + story.adopterName"
+              class="story-card__image"
+            />
+            <div class="story-card__overlay">
+              <mat-icon>favorite</mat-icon>
+            </div>
+            <span class="story-card__species-badge">{{ speciesLabel(story.species) }}</span>
+            <span *ngIf="story.featured" class="story-card__featured-badge">
+              <mat-icon>star</mat-icon>
+              Destaque
+            </span>
+          </div>
+
+          <!-- Corpo -->
+          <div class="story-card__body">
+
+            <div class="story-card__top">
+              <div>
+                <h3 class="story-card__pet-name">{{ story.petName }}</h3>
+                <span class="story-card__breed">{{ story.breed }}</span>
+              </div>
+              <span class="story-card__date">{{ story.date }}</span>
+            </div>
+
+            <blockquote class="story-card__quote">
+              <mat-icon class="story-card__quote-icon">format_quote</mat-icon>
+              {{ story.testimonial }}
+            </blockquote>
+
+            <div class="story-card__footer">
+              <div class="story-card__avatar">{{ getInitials(story.adopterName) }}</div>
+              <div class="story-card__adopter-info">
+                <span class="story-card__adopter-name">{{ story.adopterName }}</span>
+                <span class="story-card__adopter-location">
+                  <mat-icon>location_on</mat-icon>
+                  {{ story.location }}
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <mat-icon class="empty-state__icon">search_off</mat-icon>
+          <h3 class="empty-state__title">Nenhuma história encontrada</h3>
+          <p class="empty-state__text">Tente outro filtro para ver mais histórias.</p>
+          <button mat-stroked-button color="primary" (click)="setFilter('todos')">
+            <mat-icon>refresh</mat-icon>
+            Ver todas as histórias
+          </button>
+        </div>
+      </ng-template>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- CTA — COMPARTILHE SUA HISTÓRIA                        -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="share-cta">
+    <div class="container share-cta__inner">
+
+      <div class="share-cta__icon-wrapper">
+        <mat-icon>favorite</mat-icon>
+      </div>
+
+      <h2 class="share-cta__title">
+        Sua adoção também é uma história de sucesso!
+      </h2>
+
+      <p class="share-cta__subtitle">
+        Adotou pelo AdoPetMe? Compartilhe sua experiência e inspire outras pessoas
+        a darem um lar para um animal que precisa de amor.
+      </p>
+
+      <div class="share-cta__actions">
+        <button mat-raised-button class="share-cta__btn-primary" routerLink="/auth/cadastro">
+          <mat-icon>edit</mat-icon>
+          Compartilhar minha história
+        </button>
+        <button mat-stroked-button class="share-cta__btn-secondary" routerLink="/pets">
+          <mat-icon>pets</mat-icon>
+          Quero adotar também!
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+</div>
