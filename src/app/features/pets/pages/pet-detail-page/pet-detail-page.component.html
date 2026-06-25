@@ -1,0 +1,247 @@
+<div class="pet-detail">
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- NOT FOUND                                             -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div *ngIf="notFound" class="not-found">
+    <div class="container not-found__inner">
+      <mat-icon class="not-found__icon">search_off</mat-icon>
+      <h2>Animal não encontrado</h2>
+      <p>O animal que você está procurando não existe ou foi removido.</p>
+      <button mat-raised-button color="primary" routerLink="/pets">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar ao catálogo
+      </button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="pet">
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- HERO                                                   -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <section class="detail-hero">
+      <div
+        class="detail-hero__backdrop"
+        [style.background-image]="'url(' + largeImageUrl(pet) + ')'">
+      </div>
+      <div class="detail-hero__overlay"></div>
+
+      <div class="container detail-hero__inner">
+
+        <nav class="breadcrumb">
+          <a routerLink="/" class="breadcrumb__link">Início</a>
+          <mat-icon class="breadcrumb__sep">chevron_right</mat-icon>
+          <a routerLink="/pets" class="breadcrumb__link">Animais</a>
+          <mat-icon class="breadcrumb__sep">chevron_right</mat-icon>
+          <span class="breadcrumb__current">{{ pet.name }}</span>
+        </nav>
+
+        <div class="detail-hero__content">
+          <span class="detail-hero__species">
+            <mat-icon>{{ speciesIcon(pet.species) }}</mat-icon>
+            {{ speciesLabel(pet.species) }}
+          </span>
+
+          <h1 class="detail-hero__name">{{ pet.name }}</h1>
+
+          <div class="detail-hero__sub">
+            <span>{{ pet.breed }}</span>
+            <span class="detail-hero__dot">·</span>
+            <span>{{ sexLabel(pet.sex) }}</span>
+            <span class="detail-hero__dot">·</span>
+            <span>{{ pet.age }}</span>
+          </div>
+
+          <div class="detail-hero__footer">
+            <span class="detail-hero__location">
+              <mat-icon>location_on</mat-icon>
+              {{ pet.location }}
+            </span>
+            <span
+              class="detail-hero__status"
+              [class.detail-hero__status--reservado]="pet.status === 'reservado'"
+              [class.detail-hero__status--em_adocao]="pet.status === 'em_adocao'"
+              [class.detail-hero__status--adotado]="pet.status === 'adotado'">
+              {{ statusLabel(pet.status) }}
+            </span>
+          </div>
+        </div>
+
+        <button mat-icon-button class="detail-hero__back" routerLink="/pets" aria-label="Voltar ao catálogo">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- PERFIL DO ANIMAL                                       -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <section class="profile-section">
+      <div class="container">
+        <div class="profile-grid">
+
+          <!-- Foto -->
+          <div class="profile-photo">
+            <img
+              [src]="pet.imageUrl"
+              [alt]="'Foto de ' + pet.name"
+              class="profile-photo__img"
+            />
+            <button mat-icon-button class="profile-photo__favorite" aria-label="Favoritar">
+              <mat-icon>favorite_border</mat-icon>
+            </button>
+          </div>
+
+          <!-- Detalhes -->
+          <div class="profile-details">
+
+            <div class="profile-badges">
+              <span class="profile-badge">{{ sizeLabel(pet.size) }} porte</span>
+              <span class="profile-badge">{{ pet.ageGroup | titlecase }}</span>
+              <span class="profile-badge profile-badge--sex" [class.profile-badge--femea]="pet.sex === 'femea'">
+                <mat-icon>{{ pet.sex === 'macho' ? 'male' : 'female' }}</mat-icon>
+                {{ sexLabel(pet.sex) }}
+              </span>
+            </div>
+
+            <div class="profile-info-grid">
+              <div class="profile-info-item">
+                <div class="profile-info-item__icon">
+                  <mat-icon>pets</mat-icon>
+                </div>
+                <div class="profile-info-item__text">
+                  <span class="profile-info-item__label">Raça</span>
+                  <span class="profile-info-item__value">{{ pet.breed }}</span>
+                </div>
+              </div>
+              <div class="profile-info-item">
+                <div class="profile-info-item__icon">
+                  <mat-icon>cake</mat-icon>
+                </div>
+                <div class="profile-info-item__text">
+                  <span class="profile-info-item__label">Idade</span>
+                  <span class="profile-info-item__value">{{ pet.age }}</span>
+                </div>
+              </div>
+              <div class="profile-info-item">
+                <div class="profile-info-item__icon">
+                  <mat-icon>location_on</mat-icon>
+                </div>
+                <div class="profile-info-item__text">
+                  <span class="profile-info-item__label">Localização</span>
+                  <span class="profile-info-item__value">{{ pet.location }}</span>
+                </div>
+              </div>
+              <div class="profile-info-item">
+                <div class="profile-info-item__icon">
+                  <mat-icon>palette</mat-icon>
+                </div>
+                <div class="profile-info-item__text">
+                  <span class="profile-info-item__label">Cor</span>
+                  <span class="profile-info-item__value">{{ pet.color }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-temperament">
+              <h4 class="profile-temperament__title">Temperamento</h4>
+              <div class="profile-temperament__chips">
+                <span *ngFor="let t of pet.temperament" class="temperament-chip">{{ t }}</span>
+              </div>
+            </div>
+
+            <p class="profile-description">{{ pet.description }}</p>
+
+            <div class="profile-cta">
+              <button
+                mat-raised-button
+                color="primary"
+                class="cta-btn"
+                [disabled]="pet.status !== 'disponivel'">
+                <mat-icon>favorite</mat-icon>
+                {{ pet.status === 'disponivel' ? 'Quero adotar ' + pet.name : statusLabel(pet.status) }}
+              </button>
+              <button mat-stroked-button class="cta-btn-secondary" routerLink="/pets">
+                <mat-icon>arrow_back</mat-icon>
+                Ver outros animais
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- TIMELINE                                               -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <section class="timeline-section">
+      <div class="container">
+
+        <div class="timeline-section__header">
+          <span class="timeline-section__eyebrow">
+            <mat-icon>timeline</mat-icon>
+            Histórico completo
+          </span>
+          <h2 class="timeline-section__title">
+            A jornada de <span class="timeline-section__accent">{{ pet.name }}</span>
+          </h2>
+          <p class="timeline-section__subtitle">
+            Cada etapa que {{ pet.name }} percorreu — do resgate até {{ pet.status === 'adotado' ? 'o lar definitivo' : 'os dias de hoje' }}.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <div
+            *ngFor="let event of pet.timeline; let last = last"
+            class="timeline__item"
+            [class.timeline__item--last]="last">
+
+            <div
+              class="timeline__dot"
+              [style.background-color]="eventConfig(event.type).color">
+              <mat-icon>{{ eventConfig(event.type).icon }}</mat-icon>
+            </div>
+
+            <div class="timeline__content">
+              <div class="timeline__meta">
+                <span
+                  class="timeline__type"
+                  [style.color]="eventConfig(event.type).color">
+                  {{ eventConfig(event.type).label }}
+                </span>
+                <span class="timeline__date">{{ event.date | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <h4 class="timeline__title">{{ event.title }}</h4>
+              <p *ngIf="event.description" class="timeline__desc">{{ event.description }}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- CTA FINAL                                              -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <section class="cta-section" *ngIf="pet.status === 'disponivel'">
+      <div class="container">
+        <div class="cta-card">
+          <div class="cta-card__icon-wrap">
+            <mat-icon>favorite</mat-icon>
+          </div>
+          <h3 class="cta-card__title">{{ pet.name }} está esperando por você</h3>
+          <p class="cta-card__desc">
+            Dê a {{ pet.name }} a família que {{ pronoun(pet.sex) }} merece.
+            O processo de adoção é simples e acompanhado por nossa equipe.
+          </p>
+          <button mat-raised-button color="primary" class="cta-card__btn">
+            <mat-icon>pets</mat-icon>
+            Iniciar processo de adoção
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </ng-container>
+</div>

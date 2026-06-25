@@ -273,7 +273,7 @@
             </div>
 
             <div class="pet-card__footer">
-              <button mat-raised-button color="primary" class="pet-card__cta">
+              <button mat-raised-button color="primary" class="pet-card__cta" [routerLink]="['/pets', pet.id]">
                 <mat-icon>pets</mat-icon>
                 Ver perfil
               </button>
